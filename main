@@ -1,4 +1,7 @@
 import random
+from Crypto.Cipher import AES
+from secrets import token_bytes
+
 def encryption_1(insert_message):
     Binary= {
    "a" : "01100001",
@@ -52,9 +55,14 @@ def encryption_1(insert_message):
    "W" : "01010111",
    "X" : "01011000",
    "Y" : "01011001",
-   "Z" : "01011010"
+   "Z" : "01011010",
+   '/' : "01011011",
+   ##'\' : "01011110", #not accepting '\' as a key why???
+   "'" : "01011110",
+   
+
    #,
-   #'  ' : "01011011"
+   
 }
     
     cipher=''
@@ -72,7 +80,36 @@ def encryption_1(insert_message):
 
 
 def encryption_2(insert_message):
-    message=insert_message.upper()
+    #string reverse
+    rev_string = "".join(reversed(insert_message))
+    #swapping of even and odd elements
+    b=list(rev_string.split())
+    s=len(b)
+    if s%2!=0:
+        s=s-1
+    for i in range(0,s,2):
+        b[i],b[i+1]=b[i+1],b[i]
+    print("List after swapping :",b)
+#re-swapping
+    s=len(b)
+    if s%2!=0:
+        s=s-1
+    for i in range(0,s,2):
+        b[i+1],b[i]=b[i],b[i+1]
+    print("List after swapping :",b)
+#list to string
+    string=""
+    for element in b:
+     string+=element+" "
+
+
+
+
+
+
+
+#Morse cipher
+    message=string.upper()
     cipher = ''
     for letter in message:
         if letter != ' ':
@@ -86,10 +123,11 @@ def encryption_2(insert_message):
             # 1 space indicates different characters
             # and 2 indicates different words
             cipher += ' '
-  
     print(cipher) 
-MORSE={   
-    'A':'.-', 
+    
+MORSE={  
+    'A':'अ',
+    #'A':'.-', 
     'B':'-...',
     'C':'-.-.', 
     'D':'-..', 
@@ -135,9 +173,18 @@ MORSE={
     } 
       
       
-      
+key = token_bytes(16)
 
+def encrypt_AES(msg): ## Encryption algorithm 
+    cipher = AES.new(key, AES.MODE_EAX)
+    nonce = cipher.nonce
+    ciphertext, tag = cipher.encrypt_and_digest(msg.encode('ascii'))
+    return nonce, ciphertext, tag
 
-insert_message=input("ENTER YOUR MESSAGE TO ENCRYPT--")
-#insert_message="hello how"
+#nonce, ciphertext, tag = encrypt_AES(input('Enter a message: '))
+#print(f'Cipher text: {ciphertext}')
+
+#insert_message=input("ENTER YOUR MESSAGE TO ENCRYPT--")
+insert_message="hello how ''\"
 encryption_1(insert_message)
+#encryption_1(ciphertext)
