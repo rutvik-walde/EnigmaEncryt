@@ -185,6 +185,6 @@ def encrypt_AES(msg): ## Encryption algorithm
 #print(f'Cipher text: {ciphertext}')
 
 #insert_message=input("ENTER YOUR MESSAGE TO ENCRYPT--")
-insert_message="hello how ''\"
+insert_message="hello how '' "
 encryption_1(insert_message)
 #encryption_1(ciphertext)
